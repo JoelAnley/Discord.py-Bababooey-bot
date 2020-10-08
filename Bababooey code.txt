@@ -1,0 +1,46 @@
+import discord
+from discord.ext import commands, tasks
+from random import choice
+from asyncio import sleep
+
+
+bot = commands.Bot(command_prefix='<')
+
+status = ['BABABOOEY']
+#This changes the bots status, make this whatever you want.
+
+@tasks.loop(seconds=60)
+async def change_status():
+    await bot.change_presence(activity=discord.Game(choice(status)))
+
+
+@bot.event
+async def on_ready():
+    change_status.start()
+    print("Fired up and ready to BABABOOEY")   
+	
+
+@bot.event
+async def on_message(message):
+    message.content.lower()
+    if message.author == bot.user:
+        return
+    await bot.process_commands(message)
+
+    magicword = "bababooey"
+    if magicword in message.content.lower():
+        #await message.channel.send("BABABOOEY")
+		#Remove hash if you would like the bot to respond
+		
+        await bot.process_commands(message)
+
+        channel = message.author.voice.channel
+        vc = await channel.connect()
+        vc.play(discord.FFmpegPCMAudio(executable="C:/ffmpeg/bin/ffmpeg.exe", source="C:\\change this to the location of bababooey.mp3"))
+        while vc.is_playing():
+            await sleep(1)
+            await vc.disconnect()
+
+    await bot.process_commands(message)
+	
+bot.run("add your discord bot token here.")
