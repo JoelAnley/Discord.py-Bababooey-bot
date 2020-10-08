@@ -36,7 +36,7 @@ async def on_message(message):
 
         channel = message.author.voice.channel
         vc = await channel.connect()
-        vc.play(discord.FFmpegPCMAudio(executable="C:/ffmpeg/bin/ffmpeg.exe", source="C:\\change this to the location of bababooey.mp3"))
+        vc.play(discord.FFmpegPCMAudio(executable="C:/ffmpeg/bin/ffmpeg.exe", source="C:\\change this to the location of BABABOOEY.mp3"))
         while vc.is_playing():
             await sleep(1)
             await vc.disconnect()
